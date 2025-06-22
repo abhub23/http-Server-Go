@@ -6,5 +6,5 @@
 
 
 ## ✅ Some factors to remember
-- windows isn't unix based so it wont work using unix, you can use [golang.org/x/sys/windows](golang.org/x/sys/windows) or if you want to stay unixified use WSL tool
+- windows isn't unix based so it wont work using unix, you can use [golang.org/x/sys/windows](https://golang.org/x/sys/windows) or if you want to stay unixified use WSL tool
 - on unix based systems it will work as exepected
