@@ -5,14 +5,16 @@ import (
 	"fmt"
 	"net"
 	"reflect"
+	"strings"
 
 	"github.com/pkg/errors"
 )
 
 func handleConn(conn net.Conn) {
-	defer conn.Close().Error()
+	defer conn.Close()
 
 	reader := bufio.NewReader(conn)
+	fmt.Printf("type is %T", conn)
 
 	reqLine, err := reader.ReadString('\n')
 	if err != nil {
@@ -21,14 +23,22 @@ func handleConn(conn net.Conn) {
 
 	fmt.Print(reqLine)
 
-	body := `<html>
+	html := `<html>
+	<title>go http server</title>
 	<h1>Go Http Server</h1>
 	<p>Local Http Server listening on Port 8080</p>
 	</html>`
 
-	response := `HTTP/1.1 200 OK\r\n` + fmt.Sprintf()
+	response := strings.Join([]string{
+		"HTTP/1.1 200 OK",
+		"Content-Type: text/html; charset=utf-8",
+		fmt.Sprintf("Content-Length: %d", len(html)),
+		"",
+		html,
+	}, "\n")
 
-	
+	conn.Write([]byte(response))
+
 }
 
 func main() {
