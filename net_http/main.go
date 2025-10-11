@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"net"
+	"os"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -21,11 +22,10 @@ func handleConn(conn net.Conn) {
 		fmt.Println("failed to read string ", err)
 	}
 
-	html := `<html>
-	<title>go http server</title>
-	<h1>Go Http Server</h1>
-	<p>Local Http Server listening on Port 8080</p>
-	</html>`
+	html, err := os.ReadFile("../index.html")
+	if err != nil {
+		fmt.Println("Error in reading HTML file ", err)
+	}
 
 	//Seperates the join by /n so the Buffer reader will read accordingly
 	response := strings.Join([]string{
@@ -33,7 +33,7 @@ func handleConn(conn net.Conn) {
 		"Content-Type: text/html; charset=utf-8",
 		fmt.Sprintf("Content-Length: %d", len(html)),
 		"",
-		html,
+		string(html),
 	}, "\n")
 
 	conn.Write([]byte(response))
