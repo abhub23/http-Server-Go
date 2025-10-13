@@ -14,7 +14,6 @@ func handleConn(conn net.Conn) {
 	defer conn.Close()
 
 	reader := bufio.NewReader(conn)
-	fmt.Printf("type is %T", conn)
 
 	//Reads the response string line by line
 	_, err := reader.ReadString('\n')
@@ -27,7 +26,7 @@ func handleConn(conn net.Conn) {
 		fmt.Println("Error in reading HTML file ", err)
 	}
 
-	//Seperates the join by /n so the Buffer reader will read accordingly
+	//Separates the join by /n so the Buffer reader will read accordingly
 	response := strings.Join([]string{
 		"HTTP/1.1 200 OK",
 		"Content-Type: text/html; charset=utf-8",
@@ -64,7 +63,7 @@ func main() {
 	for {
 		ln, err := listener.Accept()
 		if err != nil {
-			fmt.Println("error occured in accepting connections", err)
+			fmt.Println("error occurred in accepting connections", err)
 		}
 		go handleConn(ln)
 	}
